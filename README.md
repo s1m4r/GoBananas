@@ -1,2 +1,16 @@
-# GoBananas
-Flutter app made for NSBE 2025 Hackathon. Concept: Virtual pet game for UCSC students, which doubles as a habit tracker and event planner. It will connect students to resources that will help them succeed in college and help them with career planning. Fosters community through the ability to make friends and join a leaderboard.
+# gobananas
+
+A new Flutter project.
+
+## Getting Started
+
+This project is a starting point for a Flutter application.
+
+A few resources to get you started if this is your first Flutter project:
+
+- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
+- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+
+For help getting started with Flutter development, view the
+[online documentation](https://docs.flutter.dev/), which offers tutorials,
+samples, guidance on mobile development, and a full API reference.
