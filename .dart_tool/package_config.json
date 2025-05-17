@@ -164,13 +164,13 @@
       "languageVersion": "3.3"
     },
     {
-      "name": "gobananas",
+      "name": "test_app",
       "rootUri": "../",
       "packageUri": "lib/",
       "languageVersion": "3.7"
     }
   ],
-  "generated": "2025-05-17T23:30:40.100729Z",
+  "generated": "2025-05-17T23:40:57.014301Z",
   "generator": "pub",
   "generatorVersion": "3.7.2",
   "flutterRoot": "file:///Users/rami/flutter",
