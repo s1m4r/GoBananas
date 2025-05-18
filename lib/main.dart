@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,6 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Go Bananas',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -29,6 +31,7 @@ class MyApp extends StatelessWidget {
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
         colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 183, 171, 58)),
+        fontFamily: 'Quantico',
       ),
       home: const MyHomePage(title: 'Go Bananas'),
     );
@@ -77,19 +80,6 @@ class _MyHomePageState extends State<MyHomePage> {
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
         child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Image.asset(
@@ -108,7 +98,6 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             ElevatedButton(
               onPressed: () {
-                // Navigate to the Leaderboard screen
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const Leaderboard()),
@@ -116,11 +105,59 @@ class _MyHomePageState extends State<MyHomePage> {
               },
               child: const Text('Leaderboard'),
             ),
-          ],
+            const SizedBox(height: 20),
+            // Circular "Feed" button trash game no then loops bad justice for 
+            GestureDetector(
+            onTap: () {
+              // Trigger the banana spawn
+              showBanana(context);
+            },
+            child: Container(
+              width: 60,
+              height: 60,
+              decoration: BoxDecoration(
+                color: Colors.yellow,
+                shape: BoxShape.circle,
+              ),
+              alignment: Alignment.center,
+              child: const Text(
+                'Feed',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            ),
+            ],
+            ),
         ),
-      ),
-    );
+      );
   }
+}
+
+void showBanana(BuildContext context) {
+  OverlayEntry? overlayEntry;
+
+  overlayEntry = OverlayEntry(
+    builder: (context) => Positioned(
+      top: MediaQuery.of(context).size.height / 2 - 50,
+      left: MediaQuery.of(context).size.width / 2 - 50,
+      child: Image.asset(
+        'assets/banana.png', // Replace with your banana asset path
+        width: 100,
+        height: 100,
+      ),
+    ),
+  );
+
+  // Insert the overlay
+  Overlay.of(context).insert(overlayEntry);
+
+  // Remove the banana after 3 seconds
+  Future.delayed(const Duration(seconds: 3), () {
+    overlayEntry?.remove();
+  });
 }
 
 class Challenges extends StatelessWidget {
@@ -145,9 +182,10 @@ class Challenges extends StatelessWidget {
           children: [
             // Daily Challenges Tab
             DailyChallenges(),
-            Center(child: Text('Your daily challenges will appear here!')),
+            //Center(child: Text('Your daily challenges will appear here!')),
             // Weekly Challenges Tab
-            Center(child: Text('Your weekly challenges will appear here!')),
+            WeeklyChallenges(),
+            //Center(child: Text('Your weekly challenges will appear here!')),
             
           ],
         ),
@@ -165,7 +203,7 @@ class DailyChallenges extends StatelessWidget {
       'Working on homework',
       'Taking a walk',
       'Reading a book',
-      'Helping at home',
+      'Complete chores',
       'Trying a new hobby',
     ];
 
@@ -177,6 +215,89 @@ class DailyChallenges extends StatelessWidget {
           title: Text(challenges[index]),
         );
       },
+    );
+  }
+}
+
+class WeeklyChallenges extends StatelessWidget {
+    Future<void> _pickImage(BuildContext context) async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      // You can now use the pickedFile.path
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Image selected: ${pickedFile.name}')),
+      );
+    }
+  }
+  const WeeklyChallenges({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final challenges = [
+      'Try out food at Crown Dining Hall',
+      'Go to the gym',
+      'Go to the NSBE Hackathon 2025',
+      'Go to the Grocery Pop-Up on Fridays',
+    ];
+
+    return ListView.builder(
+      itemCount: challenges.length,
+      itemBuilder: (context, index) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+          child: ElevatedButton(
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: Text('Submit Proof'),
+                  content: const Text('Please scan a QR code or take a picture as proof for this challenge.'),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        // TODO: Implement QR code scanning
+                        Navigator.pop(context);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const QRCode()),
+                        );
+                      },
+                      child: const Text('Scan QR Code'),
+                    ),
+                    TextButton(
+                      onPressed: () async {
+                        Navigator.pop(context);
+                        await _pickImage(context);
+                      },
+                      child: const Text('Upload Picture'),
+                    ),
+                    TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: const Text('Cancel'),
+                    ),
+                  ],
+                ),
+              );
+            },
+            child: Text(challenges[index]),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class QRCode extends StatelessWidget {
+  const QRCode({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Scan QR Code')),
+      body: Center(
+        child: const Text('QR Code Scanner will be implemented here.'),
+      ),
     );
   }
 }
