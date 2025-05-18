@@ -62,6 +62,11 @@ flutter:
       - assets/banana.png
       - assets/emergedSlug.png
       - assets/background.jpg
+      - assets/slug_clothed.png
+      - assets/clothing_item_1.jpg
+      - assets/clothing_item_2.jpg
+      - assets/clothing_item_3.jpg
+      - assets/clothing_item_4.jpg
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

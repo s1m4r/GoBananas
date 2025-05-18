@@ -9,7 +9,7 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
+  // the root of the application
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
             secondary: Colors.amber[100]!,
             brightness: Brightness.light,
         ),
-        scaffoldBackgroundColor: Colors.yellow[50], // Light yellow background
+        scaffoldBackgroundColor: Colors.yellow[50], // yellow background
         appBarTheme: const AppBarTheme(
           backgroundColor: Color.fromARGB(225, 255, 235, 59),
           foregroundColor: Colors.black,
@@ -91,14 +91,12 @@ class _MyHomePageState extends State<MyHomePage> {
 
       
       body: Stack(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
         children: [
-          // Background image
+          // background image
           Positioned.fill(
             child: Image.asset(
-                'assets/background.jpg', // Replace with the correct path to your image
-                fit: BoxFit.cover, // Ensures the image covers the entire screen
+                'assets/background.jpg', 
+                fit: BoxFit.cover, // cover whole screen
             ),
           ),
           Center(
@@ -115,7 +113,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 
 
               const SizedBox(height: 20),
-                // Circular "Feed" button trash game no then loops bad justice for 
+                // feed button
                 GestureDetector(
                 onTap: () {
                   // Trigger the banana spawn
@@ -173,7 +171,7 @@ class _MyHomePageState extends State<MyHomePage> {
               
           ),
           Positioned(
-            bottom: 30.0, // Adjust to position below the AppBar
+            bottom: 30.0, // below the AppBar
             right: 16.0,
             child: FloatingActionButton(
               onPressed: () {
@@ -187,7 +185,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
           Positioned(
-            bottom: 30.0, // Adjust to position below the AppBar
+            bottom: 30.0, // below the AppBar
             left: 16.0,
             child: FloatingActionButton(
               onPressed: () {
@@ -215,7 +213,7 @@ void showBanana(BuildContext context) {
       top: MediaQuery.of(context).size.height / 2 - 50,
       left: MediaQuery.of(context).size.width / 2 - 50,
       child: Image.asset(
-        'assets/banana.png', // Replace with your banana asset path
+        'assets/banana.png', 
         width: 100,
         height: 100,
       ),
@@ -225,7 +223,7 @@ void showBanana(BuildContext context) {
   // Insert the overlay
   Overlay.of(context).insert(overlayEntry);
 
-  // Remove the banana after 3 seconds
+  // Remove the banana after 2 secs
   Future.delayed(const Duration(seconds: 2), () {
     overlayEntry?.remove();
   });
@@ -274,7 +272,6 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
-  // Helper method to build a stat row
   Widget _buildStatRow(String statName, String statValue) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
@@ -306,37 +303,37 @@ class ClosetPage extends StatelessWidget {
       ),
       body: Column(
         children: [
-          // Top half: Slug asset
+          // top half: Slug asset
           Expanded(
             flex: 1,
             child: Center(
               child: Image.asset(
-                'assets/emergedSlug.png', // Replace with the correct path to your slug asset
-                width: 150,
-                height: 150,
+                'assets/slug_clothed.png', 
+                width: 300,
+                height: 300,
               ),
             ),
           ),
-          // Bottom half: Scrollable list of icons
+          // bottom half: Scrollable list of icons
           Expanded(
             flex: 1,
             child: Container(
-              color: Colors.grey[200], // Optional background color for the list
+              color: Colors.grey[200],
               child: ListView.builder(
                 scrollDirection: Axis.vertical, // Vertical scrolling
-                itemCount: 10, // Number of clothing items
+                itemCount: 4, // number of clothing items
                 itemBuilder: (context, index) {
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
                       children: [
                         Image.asset(
-                          'assets/clothing_item_${index + 1}.png', // Replace with your clothing asset paths
-                          width: 100, // Set the width of the square asset
-                          height: 100, // Set the height of the square asset
-                          fit: BoxFit.cover, // Ensures the image fits within the square
+                          'assets/clothing_item_${index + 1}.jpg', 
+                          width: 100, 
+                          height: 100, 
+                          fit: BoxFit.cover, 
                         ),
-                        const SizedBox(height: 8), // Space between image and text
+                        const SizedBox(height: 8), // spce between image and text
                       ],
                     ),
                   );
@@ -356,13 +353,13 @@ class Challenges extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      // This is the number of tabs. In this case, we have two tabs: Daily and Weekly.
-    length: 2, // Two tabs: Daily and Weekly
+      // two tabs: Daily and Weekly.
+    length: 2, 
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Challenges'),
           bottom: const TabBar(
-            labelColor: Colors.black, // Selected tab text color
+            labelColor: Colors.black, 
             unselectedLabelColor: Colors.black54,
             tabs: [
               Tab(text: 'Daily'),
@@ -372,12 +369,11 @@ class Challenges extends StatelessWidget {
         ),
         body: const TabBarView(
           children: [
-            // Daily Challenges Tab
+
             DailyChallenges(),
-            //Center(child: Text('Your daily challenges will appear here!')),
-            // Weekly Challenges Tab
+
             WeeklyChallenges(),
-            //Center(child: Text('Your weekly challenges will appear here!')),
+
             
           ],
         ),
