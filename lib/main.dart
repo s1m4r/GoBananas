@@ -15,22 +15,28 @@ class MyApp extends StatelessWidget {
       title: 'Go Bananas',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 183, 171, 58)),
+
+        colorScheme: ColorScheme.fromSeed(
+            seedColor: Colors.yellow[200]!,
+            primary: Colors.yellow[200]!,
+            secondary: Colors.amber[100]!,
+            brightness: Brightness.light,
+        ),
+        scaffoldBackgroundColor: Colors.yellow[50], // Light yellow background
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Color.fromARGB(225, 255, 235, 59),
+          foregroundColor: Colors.black,
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.yellow[100],
+            foregroundColor: Colors.black,
+            textStyle: const TextStyle(fontWeight: FontWeight.bold),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(12)),
+            ),
+          ),
+        ),
         fontFamily: 'Quantico',
       ),
       home: const MyHomePage(title: 'Go Bananas'),
@@ -40,15 +46,6 @@ class MyApp extends StatelessWidget {
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
 
   final String title;
 
@@ -60,6 +57,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    int bananaCount = 10; // Example initial value
+    int slugPoints = 5;   // Example initial value
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -68,13 +67,25 @@ class _MyHomePageState extends State<MyHomePage> {
     // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                const Icon(Icons.local_florist, color: Colors.yellow),
+                const SizedBox(width: 5),
+                Text('Bananas: $bananaCount'),
+              ],
+            ),
+            Row(
+              children: [
+                const Icon(Icons.bug_report, color: Colors.green),
+                const SizedBox(width: 5),
+                Text('Slug Points: $slugPoints'),
+              ],
+            ),
+          ],
+        ),
       ),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
@@ -82,8 +93,19 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            const SizedBox(height: 32),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Leaderboard()),
+                );
+              },
+              child: const Text('Leaderboard'),
+            ),
+            const SizedBox(height: 20),
             Image.asset(
-              'assets/WEBsammybirthday.jpg',
+              'assets/emergedSlug.png',
               width: 150,
               height: 150,
             ),
@@ -96,15 +118,7 @@ class _MyHomePageState extends State<MyHomePage> {
               },
               child: const Text('Challenges'),
             ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const Leaderboard()),
-                );
-              },
-              child: const Text('Leaderboard'),
-            ),
+            
             const SizedBox(height: 20),
             // Circular "Feed" button trash game no then loops bad justice for 
             GestureDetector(
