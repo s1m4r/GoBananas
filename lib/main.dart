@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'main.dart';
 
 void main() {
   runApp(const MyApp());
@@ -129,12 +128,30 @@ class Challenges extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Challenges')),
-      body: const Center(child: Text('Welcome to your challenges!')),
-    );  
-  } 
-  
+    return DefaultTabController(
+      // This is the number of tabs. In this case, we have two tabs: Daily and Weekly.
+    length: 2, // Two tabs: Daily and Weekly
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Challenges'),
+          bottom: const TabBar(
+            tabs: [
+              Tab(text: 'Daily'),
+              Tab(text: 'Weekly'),
+            ],
+          ),
+        ),
+        body: const TabBarView(
+          children: [
+            // Daily Challenges Tab
+            Center(child: Text('Your daily challenges will appear here!')),
+            // Weekly Challenges Tab
+            Center(child: Text('Your weekly challenges will appear here!')),
+          ],
+        ),
+      ),
+    );
+  }
 }
 
 class Leaderboard extends StatelessWidget {
