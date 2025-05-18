@@ -144,12 +144,39 @@ class Challenges extends StatelessWidget {
         body: const TabBarView(
           children: [
             // Daily Challenges Tab
+            DailyChallenges(),
             Center(child: Text('Your daily challenges will appear here!')),
             // Weekly Challenges Tab
             Center(child: Text('Your weekly challenges will appear here!')),
+            
           ],
         ),
       ),
+    );
+  }
+}
+
+class DailyChallenges extends StatelessWidget {
+  const DailyChallenges({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final challenges = [
+      'Working on homework',
+      'Taking a walk',
+      'Reading a book',
+      'Helping at home',
+      'Trying a new hobby',
+    ];
+
+    return ListView.builder(
+      itemCount: challenges.length,
+      itemBuilder: (context, index) {
+        return ListTile(
+          leading: const Icon(Icons.check_box_outline_blank),
+          title: Text(challenges[index]),
+        );
+      },
     );
   }
 }
@@ -161,7 +188,35 @@ class Leaderboard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Leaderboard')),
-      body: const Center(child: Text('Welcome to the leaderboard!')),
+      body: ListView(
+        children: const [
+          ListTile(
+            leading: CircleAvatar(child: Text('1')),
+            title: Text('User A'),
+            subtitle: Text('Bananas: 150'),
+          ),
+          ListTile(
+            leading: CircleAvatar(child: Text('2')),
+            title: Text('User B'),
+            subtitle: Text('Bananas: 140'),
+          ),
+          ListTile(
+            leading: CircleAvatar(child: Text('3')),
+            title: Text('User C'),
+            subtitle: Text('Bananas: 130'),
+          ),
+          ListTile(
+            leading: CircleAvatar(child: Text('4')),
+            title: Text('User D'),
+            subtitle: Text('Bananas: 120'),
+          ),
+          ListTile(
+            leading: CircleAvatar(child: Text('5')),
+            title: Text('User E'),
+            subtitle: Text('Bananas: 110'),
+          ),
+        ],
+      ),
     );
   }
 }
