@@ -87,64 +87,102 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-      body: Center(
+
+      
+      body: Stack(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const SizedBox(height: 32),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const Leaderboard()),
-                );
-              },
-              child: const Text('Leaderboard'),
-            ),
-            const SizedBox(height: 20),
-            Image.asset(
-              'assets/emergedSlug.png',
-              width: 150,
-              height: 150,
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const Challenges()),
-                );
-              },
-              child: const Text('Challenges'),
-            ),
-            
-            const SizedBox(height: 20),
-            // Circular "Feed" button trash game no then loops bad justice for 
-            GestureDetector(
-            onTap: () {
-              // Trigger the banana spawn
-              showBanana(context);
-            },
-            child: Container(
-              width: 60,
-              height: 60,
-              decoration: BoxDecoration(
-                color: Colors.yellow,
-                shape: BoxShape.circle,
-              ),
-              alignment: Alignment.center,
-              child: const Text(
-                'Feed',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
+        children: [
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                const SizedBox(height: 32),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const Leaderboard()),
+                    );
+                  },
+                  child: const Text('Leaderboard'),
                 ),
-              ),
+                const SizedBox(height: 50),
+                Image.asset(
+                  'assets/emergedSlug.png',
+                  width: 150,
+                  height: 150,
+                ),
+                const SizedBox(height: 50),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const Challenges()),
+                    );
+                  },
+                  child: const Text('Challenges'),
+                ),
+                
+                const SizedBox(height: 20),
+                // Circular "Feed" button trash game no then loops bad justice for 
+                GestureDetector(
+                onTap: () {
+                  // Trigger the banana spawn
+                  showBanana(context);
+                },
+                child: Container(
+                  width: 60,
+                  height: 60,
+                  decoration: BoxDecoration(
+                    color: Colors.yellow,
+                    shape: BoxShape.circle,
+                  ),
+                  alignment: Alignment.center,
+                  child: const Text(
+                    'Feed',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                ),
+                ],
+                
+                ),
+              
+          ),
+          Positioned(
+            top: 16.0, // Adjust to position below the AppBar
+            right: 16.0,
+            child: FloatingActionButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ClosetPage()),
+                );
+              },
+              backgroundColor: Colors.blue,
+              child: const Icon(Icons.shopping_bag),
             ),
+          ),
+          Positioned(
+            top: 16.0, // Adjust to position below the AppBar
+            left: 16.0,
+            child: FloatingActionButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Profile()),
+                );
+              },
+              backgroundColor: Colors.blue,
+              child: const Icon(Icons.person),
             ),
-            ],
-            ),
+          ),
+        ],
+        
         ),
       );
   }
@@ -174,6 +212,44 @@ void showBanana(BuildContext context) {
   });
 }
 
+class Profile extends StatelessWidget {
+  const Profile({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Profile'),
+      ),
+      body: const Center(
+        child: Text(
+          'Welcome to the your Profile!',
+          style: TextStyle(fontSize: 24),
+        ),
+      ),
+    );
+  }
+}
+
+class ClosetPage extends StatelessWidget {
+  const ClosetPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Closet'),
+      ),
+      body: const Center(
+        child: Text(
+          'Welcome to the Closet!',
+          style: TextStyle(fontSize: 24),
+        ),
+      ),
+    );
+  }
+}
+
 class Challenges extends StatelessWidget {
   const Challenges({super.key});
 
@@ -186,6 +262,8 @@ class Challenges extends StatelessWidget {
         appBar: AppBar(
           title: const Text('Challenges'),
           bottom: const TabBar(
+            labelColor: Colors.black, // Selected tab text color
+            unselectedLabelColor: Colors.black54,
             tabs: [
               Tab(text: 'Daily'),
               Tab(text: 'Weekly'),
@@ -251,7 +329,7 @@ class WeeklyChallenges extends StatelessWidget {
     final challenges = [
       'Try out food at Crown Dining Hall',
       'Go to the gym',
-      'Go to the NSBE Hackathon 2025',
+      'Participate in the NSBE Hackathon 2025',
       'Go to the Grocery Pop-Up on Fridays',
     ];
 
@@ -269,6 +347,9 @@ class WeeklyChallenges extends StatelessWidget {
                   content: const Text('Please scan a QR code or take a picture as proof for this challenge.'),
                   actions: [
                     TextButton(
+                      style: TextButton.styleFrom(
+                        foregroundColor: Colors.black, // Text color
+                      ),
                       onPressed: () {
                         // TODO: Implement QR code scanning
                         Navigator.pop(context);
@@ -277,9 +358,12 @@ class WeeklyChallenges extends StatelessWidget {
                           MaterialPageRoute(builder: (context) => const QRCode()),
                         );
                       },
-                      child: const Text('Scan QR Code'),
+                      child: const Text('Scan Event QR Code'),
                     ),
                     TextButton(
+                      style: TextButton.styleFrom(
+                        foregroundColor: Colors.black, // Text color
+                      ),
                       onPressed: () async {
                         Navigator.pop(context);
                         await _pickImage(context);
@@ -287,6 +371,9 @@ class WeeklyChallenges extends StatelessWidget {
                       child: const Text('Upload Picture'),
                     ),
                     TextButton(
+                      style: TextButton.styleFrom(
+                        foregroundColor: Colors.black, // Text color
+                      ),
                       onPressed: () => Navigator.pop(context),
                       child: const Text('Cancel'),
                     ),
