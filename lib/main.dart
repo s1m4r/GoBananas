@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'main.dart';
 
 void main() {
   runApp(const MyApp());
@@ -106,6 +107,16 @@ class _MyHomePageState extends State<MyHomePage> {
               },
               child: const Text('Challenges'),
             ),
+            ElevatedButton(
+              onPressed: () {
+                // Navigate to the Leaderboard screen
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Leaderboard()),
+                );
+              },
+              child: const Text('Leaderboard'),
+            ),
           ],
         ),
       ),
@@ -124,4 +135,16 @@ class Challenges extends StatelessWidget {
     );  
   } 
   
+}
+
+class Leaderboard extends StatelessWidget {
+  const Leaderboard({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Leaderboard')),
+      body: const Center(child: Text('Welcome to the leaderboard!')),
+    );
+  }
 }
