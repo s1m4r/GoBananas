@@ -1,6 +1,6 @@
 // This is a generated file; do not edit or check into version control.
-FLUTTER_ROOT=/Users/rami/flutter
-FLUTTER_APPLICATION_PATH=/Users/rami/GoBananasFlutter/gobananas/GoBananas
+FLUTTER_ROOT=C:\Users\Sruti\.vscode\flutter
+FLUTTER_APPLICATION_PATH=C:\Users\Sruti\.vscode\Hacky Wacky\GoBananas
 COCOAPODS_PARALLEL_CODE_SIGN=true
 FLUTTER_BUILD_DIR=build
 FLUTTER_BUILD_NAME=1.0.0
