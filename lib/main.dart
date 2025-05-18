@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -54,11 +55,11 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  int bananaCount = 10;
+  int slugPoints = 5; 
 
   @override
   Widget build(BuildContext context) {
-    int bananaCount = 10; // Example initial value
-    int slugPoints = 5;   // Example initial value
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -72,15 +73,16 @@ class _MyHomePageState extends State<MyHomePage> {
           children: [
             Row(
               children: [
-                const Icon(Icons.local_florist, color: Colors.yellow),
+                const Icon(Icons.food_bank,  color: Color.fromARGB(255, 32, 33, 51)),
                 const SizedBox(width: 5),
-                Text('Bananas: $bananaCount'),
+                Text(' $bananaCount'),
               ],
             ),
             Row(
               children: [
                 const SizedBox(width: 5),
-                Text('Slug Points: $slugPoints'),
+                const Icon(Icons.attach_money, color: Color.fromARGB(255, 32, 33, 51)),
+                Text(' $slugPoints'),
               ],
             ),
           ],
@@ -92,43 +94,38 @@ class _MyHomePageState extends State<MyHomePage> {
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
         children: [
+          // Background image
+          Positioned.fill(
+            child: Image.asset(
+                'assets/background.jpg', // Replace with the correct path to your image
+                fit: BoxFit.cover, // Ensures the image covers the entire screen
+            ),
+          ),
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                const SizedBox(height: 32),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const Leaderboard()),
-                    );
-                  },
-                  child: const Text('Leaderboard'),
-                ),
-                const SizedBox(height: 50),
+                
+                const SizedBox(height: 200),
                 Image.asset(
                   'assets/emergedSlug.png',
                   width: 150,
                   height: 150,
                 ),
-                const SizedBox(height: 50),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const Challenges()),
-                    );
-                  },
-                  child: const Text('Challenges'),
-                ),
                 
-                const SizedBox(height: 20),
+
+              const SizedBox(height: 20),
                 // Circular "Feed" button trash game no then loops bad justice for 
                 GestureDetector(
                 onTap: () {
                   // Trigger the banana spawn
-                  showBanana(context);
+                  if(bananaCount > 0) {
+                    bananaCount--;
+                    // Update the banana count in the UI
+                    setState(() {});
+
+                    showBanana(context);
+                  }
                 },
                 child: Container(
                   width: 60,
@@ -147,13 +144,36 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
                 ),
+
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const Challenges()),
+                    );
+                  },
+                  child: const Text('Challenges'),
+                ),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const Leaderboard()),
+                    );
+                  },
+                  child: const Text('Leaderboard'),
+                ),
+                
+              
                 ],
                 
                 ),
               
           ),
           Positioned(
-            top: 16.0, // Adjust to position below the AppBar
+            bottom: 30.0, // Adjust to position below the AppBar
             right: 16.0,
             child: FloatingActionButton(
               onPressed: () {
@@ -167,13 +187,13 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
           Positioned(
-            top: 16.0, // Adjust to position below the AppBar
+            bottom: 30.0, // Adjust to position below the AppBar
             left: 16.0,
             child: FloatingActionButton(
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const Profile()),
+                  MaterialPageRoute(builder: (context) => const ProfilePage()),
                 );
               },
               backgroundColor: const Color.fromARGB(170, 94, 148, 192),
@@ -206,13 +226,13 @@ void showBanana(BuildContext context) {
   Overlay.of(context).insert(overlayEntry);
 
   // Remove the banana after 3 seconds
-  Future.delayed(const Duration(seconds: 3), () {
+  Future.delayed(const Duration(seconds: 2), () {
     overlayEntry?.remove();
   });
 }
 
-class Profile extends StatelessWidget {
-  const Profile({super.key});
+class ProfilePage extends StatelessWidget {
+  const ProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -220,11 +240,56 @@ class Profile extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Profile'),
       ),
-      body: const Center(
-        child: Text(
-          'Welcome to the your Profile!',
-          style: TextStyle(fontSize: 24),
-        ),
+      body: Column(
+        children: [
+          // Slug asset in the center
+          const SizedBox(height: 150),
+          Center(
+            
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Image.asset(
+                'assets/emergedSlug.png',
+                width: 150,
+                height: 150,
+              ),
+            ),
+          ),
+          const SizedBox(height: 16), // Space between the slug and stats
+          // List of stats
+          Expanded(
+            child: ListView(
+              children: [
+                _buildStatRow('Health', '100'),
+                _buildStatRow('Happiness', '80'),
+                _buildStatRow('Level', '5'),
+                _buildStatRow('Goals Achieved', '20'),
+                _buildStatRow('Highest Streak', '90'),
+                _buildStatRow('Average Daily Goals', '3'),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // Helper method to build a stat row
+  Widget _buildStatRow(String statName, String statValue) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            statName,
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          Text(
+            statValue,
+            style: const TextStyle(fontSize: 18),
+          ),
+        ],
       ),
     );
   }
@@ -239,11 +304,47 @@ class ClosetPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Closet'),
       ),
-      body: const Center(
-        child: Text(
-          'Welcome to the Closet!',
-          style: TextStyle(fontSize: 24),
-        ),
+      body: Column(
+        children: [
+          // Top half: Slug asset
+          Expanded(
+            flex: 1,
+            child: Center(
+              child: Image.asset(
+                'assets/emergedSlug.png', // Replace with the correct path to your slug asset
+                width: 150,
+                height: 150,
+              ),
+            ),
+          ),
+          // Bottom half: Scrollable list of icons
+          Expanded(
+            flex: 1,
+            child: Container(
+              color: Colors.grey[200], // Optional background color for the list
+              child: ListView.builder(
+                scrollDirection: Axis.vertical, // Vertical scrolling
+                itemCount: 10, // Number of clothing items
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        Image.asset(
+                          'assets/clothing_item_${index + 1}.png', // Replace with your clothing asset paths
+                          width: 100, // Set the width of the square asset
+                          height: 100, // Set the height of the square asset
+                          fit: BoxFit.cover, // Ensures the image fits within the square
+                        ),
+                        const SizedBox(height: 8), // Space between image and text
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
